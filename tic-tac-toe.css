@@ -1,0 +1,9 @@
+ :root {
+   --light: hsla(225, 17, 32, 1);
+   --medium: rgb(26, 30, 39);
+   --dark: hsla(140, 16, 7, 1);
+   --textNav: rgb(183, 191, 216);
+   --border: rgb(175, 100, 50);
+   --borderActive: rgb(238, 115, 34);
+   --hover: rgb(94, 95, 144);
+ }
