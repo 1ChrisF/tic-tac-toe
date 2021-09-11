@@ -11,36 +11,32 @@ const player1 = Player(1);
 
 const gameBoard = (() => {
 
-    let boardState = [
-        "x", "o", "x",
-        "x", "o", "x",
-        "x", "o", "x"
+    let board = [
+        "", "", "",
+        "", "", "",
+        "", "", ""
     ]
-return {boardMarks}
+    return { board }
 })();
 
-
 const game = (() => {
-    let boardState = [
-        0, 0, 0,
-        0, 0, 0,
-        0, 0, 0
-    ];
+
     let counter = 0;
-    let player = player1;
+    let player = player0;
 
 
     const changeState = (e) => {
         let x = e.target.dataset.index;
-        boardState[x] = player.getMark();
+        gameBoard.board[x] = player.getMark();
         counter++
         checkRows();
-        player = (player == player0) ? player1 : player0;
+        render.marks();
+
     }
 
     const checkRows = () => {
-        let a = boardState
-        winConditions = [
+        let a = gameBoard.board
+        wins = [
             a[0] + a[1] + a[2],
             a[3] + a[4] + a[5],
             a[6] + a[7] + a[8],
@@ -50,34 +46,35 @@ const game = (() => {
             a[0] + a[4] + a[8],
             a[2] + a[4] + a[6]
         ]
-        if (winConditions.indexOf("xxx") > -1) {
-            boardState[5] = "win"
+        if (wins.indexOf("xxx") > -1 || wins.indexOf("ooo") > -1) {
+            gameBoard.board[5] = `${player.getMark()} wins`
         }
-        if (winConditions.indexOf("xxx") === -1 && counter === 9) { boardState[5] = "draw" }
+        if (wins.indexOf("xxx") === -1 && counter === 9) { gameBoard.board[5] = "draw" }
+        togglePlayer();
     }
-
+    const togglePlayer = () => player = (player == player0) ? player1 : player0;
     return {
         changeState,
     }
 })();
-//add image to cord
-//clear button 
-//remove all images   
+
 const render = (() => {
 
-    renderMarks = () => gameBoard.boardState.forEach(mark => {
-        boardMarks.indexOf(mark);
+    marks = () => {
 
-
-    })
-    const addMark = (e) => {
-        e.target.innerText = player.getMark();
-    };
-    const clearBoard = () => board = document.querySelectorAll(".square");
-    board.forEach(square => square.innerText = "");
-
+        const squares = document.querySelectorAll(".square");
+        squares.forEach(square => {
+            i = square.dataset.index;
+            square.innerText = gameBoard.board[i];
+        })
+    }
+    const clearBoard = () => {
+        board = document.querySelectorAll(".square");
+        board.forEach(square => square.innerText = "");
+    }
+    //clear button 
     return {
-        addMark,
+        marks,
         clearBoard
     }
 })();
@@ -85,8 +82,7 @@ const render = (() => {
 const squares = document.querySelectorAll(".square")
 squares.forEach(element => {
     element.addEventListener("click", function (e) {
-        if (!e.target.innerText) {
-            render.addMark(e);
+        if (!e.target.innerText) {            
             game.changeState(e);
         }
     });
