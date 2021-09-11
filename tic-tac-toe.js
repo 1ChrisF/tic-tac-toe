@@ -10,6 +10,17 @@ const player0 = Player(0);
 const player1 = Player(1);
 
 const gameBoard = (() => {
+
+    let boardState = [
+        "x", "o", "x",
+        "x", "o", "x",
+        "x", "o", "x"
+    ]
+return {boardMarks}
+})();
+
+
+const game = (() => {
     let boardState = [
         0, 0, 0,
         0, 0, 0,
@@ -17,19 +28,17 @@ const gameBoard = (() => {
     ];
     let counter = 0;
     let player = player1;
-    const fillBoard = (e) => {
-        e.target.innerText = player.getMark()
-    };
 
-    const addMark = (e) => {
+
+    const changeState = (e) => {
         let x = e.target.dataset.index;
-
         boardState[x] = player.getMark();
+        counter++
+        checkRows();
         player = (player == player0) ? player1 : player0;
-
     }
 
-    const addRows = () => {
+    const checkRows = () => {
         let a = boardState
         winConditions = [
             a[0] + a[1] + a[2],
@@ -44,59 +53,41 @@ const gameBoard = (() => {
         if (winConditions.indexOf("xxx") > -1) {
             boardState[5] = "win"
         }
+        if (winConditions.indexOf("xxx") === -1 && counter === 9) { boardState[5] = "draw" }
     }
 
-
-
-
-
-
-
-
-    //const addMark = function () {
-    //
-    // take data x and data y
-
-
-
-    //check for zero in arrays /return
-    //check value of player 
-    //addToArray = () =>{
-    // if (boardState[getX][getY]) return;
-
-    // boardState[getX][getY] = player;}
-    //increase turn count 
-    //counter++
-    //change value of arr at xy to 1/-1 
-    // look for arry that = 3
-    //check move number
-    //if (counter < 9);
-    //if 9 and no 3/-3 draw
-    //swictch player
-    //player = (player === player0) ? player1 : player0;
     return {
-        fillBoard,
-        addMark,
-        addRows
-        // checkBoard,
-        // addMark
+        changeState,
     }
 })();
-
-// take data x and data y
-//check active player 
 //add image to cord
 //clear button 
 //remove all images   
+const render = (() => {
+
+    renderMarks = () => gameBoard.boardState.forEach(mark => {
+        boardMarks.indexOf(mark);
+
+
+    })
+    const addMark = (e) => {
+        e.target.innerText = player.getMark();
+    };
+    const clearBoard = () => board = document.querySelectorAll(".square");
+    board.forEach(square => square.innerText = "");
+
+    return {
+        addMark,
+        clearBoard
+    }
+})();
+
 const squares = document.querySelectorAll(".square")
 squares.forEach(element => {
     element.addEventListener("click", function (e) {
         if (!e.target.innerText) {
-            gameBoard.fillBoard(e);
-            gameBoard.addMark(e);
-            gameBoard.addRows();
+            render.addMark(e);
+            game.changeState(e);
         }
-
     });
-
 });
