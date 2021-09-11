@@ -23,7 +23,13 @@ const game = (() => {
 
     let counter = 0;
     let player = player0;
-
+    const reset = () => {
+        gameBoard.board.forEach((element, index, array) => {
+            element = ""
+            array[index] = element;
+        });
+        counter = 0;
+    }
 
     const changeState = (e) => {
         let x = e.target.dataset.index;
@@ -48,19 +54,19 @@ const game = (() => {
         ]
         if (wins.indexOf("xxx") > -1 || wins.indexOf("ooo") > -1) {
             gameBoard.board[5] = `${player.getMark()} wins`
-        }
-        if (wins.indexOf("xxx") === -1 && counter === 9) { gameBoard.board[5] = "draw" }
+        } else if (counter === 9) { gameBoard.board[5] = "draw" }
         togglePlayer();
     }
     const togglePlayer = () => player = (player == player0) ? player1 : player0;
     return {
-        changeState,
+       changeState,
+        reset
     }
 })();
 
 const render = (() => {
 
-    marks = () => {
+    const marks = () => {
 
         const squares = document.querySelectorAll(".square");
         squares.forEach(square => {
@@ -69,8 +75,9 @@ const render = (() => {
         })
     }
     const clearBoard = () => {
-        board = document.querySelectorAll(".square");
-        board.forEach(square => square.innerText = "");
+
+        game.reset()
+        marks();
     }
     //clear button 
     return {
@@ -82,8 +89,11 @@ const render = (() => {
 const squares = document.querySelectorAll(".square")
 squares.forEach(element => {
     element.addEventListener("click", function (e) {
-        if (!e.target.innerText) {            
+        if (!e.target.innerText) {
             game.changeState(e);
         }
     });
 });
+function alerttest() { alert("2") }
+clearButton = document.getElementById("clear");
+clearButton.addEventListener("click", render.clearBoard);
