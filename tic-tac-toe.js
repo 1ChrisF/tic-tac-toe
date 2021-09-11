@@ -20,24 +20,27 @@ const gameBoard = (() => {
 })();
 
 const game = (() => {
-
+    
+    let gameState = true;
     let counter = 0;
     let player = player0;
     const reset = () => {
         gameBoard.board.forEach((element, index, array) => {
             element = ""
             array[index] = element;
+            gameState = true;
         });
         counter = 0;
     }
 
     const changeState = (e) => {
+        if(gameState){
         let x = e.target.dataset.index;
         gameBoard.board[x] = player.getMark();
         counter++
         checkRows();
         render.marks();
-
+        }
     }
 
     const checkRows = () => {
@@ -54,12 +57,16 @@ const game = (() => {
         ]
         if (wins.indexOf("xxx") > -1 || wins.indexOf("ooo") > -1) {
             gameBoard.board[5] = `${player.getMark()} wins`
-        } else if (counter === 9) { gameBoard.board[5] = "draw" }
+            gameState = false;
+        } else if (counter === 9) { 
+            gameBoard.board[5] = "draw";
+            gameState = false;
+     }
         togglePlayer();
     }
     const togglePlayer = () => player = (player == player0) ? player1 : player0;
     return {
-       changeState,
+        changeState,
         reset
     }
 })();
@@ -79,7 +86,7 @@ const render = (() => {
         game.reset()
         marks();
     }
-    //clear button 
+
     return {
         marks,
         clearBoard
