@@ -42,28 +42,29 @@ const game = (() => {
         if (gameState) {
             let x = e.target.dataset.index;
             gameBoard.board[x] = player.getMark;
-            counter++
-            checkRows();
-            render.marks();
+            updateGame();
         }
     }
 
     const changeStateAi = () => {
-        if (gameState){
-        for (i = 0; i < 9; ++i) {
-            ranNum = Math.floor(Math.random() * 9);
-            let space = gameBoard.board[ranNum]
-            if (space === "") {
-                gameBoard.board[ranNum] = player.getMark;
-                break;
+        if (gameState) {
+            for (i = 0; i < 9; ++i) {
+                ranNum = Math.floor(Math.random() * 9);
+                let space = gameBoard.board[ranNum]
+                if (space === "") {
+                    gameBoard.board[ranNum] = player.getMark;
+                    break;
+                }
             }
+            updateGame();
         }
+    }
+    const updateGame = () => {
         counter++
         checkRows();
         render.marks();
     }
-}
-
+    
     const checkRows = () => {
         let a = gameBoard.board
         wins = [
@@ -87,7 +88,9 @@ const game = (() => {
     }
     const togglePlayer = () => {
         player = (player == players[0]) ? players[1] : players[0];
-        if (player.getName === "AI") changeStateAi();
+        if (player.getName === "AI" && gameState === true) {
+            changeStateAi();
+        } else { player = players[0] }
     }
 
     return {
@@ -126,7 +129,6 @@ squares.forEach(element => {
         }
     });
 });
-function alerttest() { alert("2") }
 clearButton = document.getElementById("clear");
 clearButton.addEventListener("click", render.clearBoard);
 nameBtn = document.getElementById("name1");
