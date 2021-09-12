@@ -3,13 +3,8 @@ const Player = (mark, name) => {
     const marks = ["o", "x"];
     const getName = name;
     const getMark = marks[mark];
-
-
     return { getMark, getName };
 }
-
-//const player0 = Player(0, );
-const player1 = Player(1, "test");
 
 const gameBoard = (() => {
 
@@ -23,14 +18,16 @@ const gameBoard = (() => {
 
 const game = (() => {
 
-
-
     let gameState = true;
     let counter = 0;
     let players = [];
-    const addPlayer1 = () => players[0] = Player(0, document.getElementById("nameInput").value);
+    let player;
+    const addPlayer1 = () => {
+        players[0] = Player(0, document.getElementById("nameInput").value);
+        player = players[0];
+    }
     players[1] = Player(1, "AI");
-    let player = players[1];
+
 
     const reset = () => {
         gameBoard.board.forEach((element, index, array) => {
@@ -50,6 +47,22 @@ const game = (() => {
             render.marks();
         }
     }
+
+    const changeStateAi = () => {
+        if (gameState){
+        for (i = 0; i < 9; ++i) {
+            ranNum = Math.floor(Math.random() * 9);
+            let space = gameBoard.board[ranNum]
+            if (space === "") {
+                gameBoard.board[ranNum] = player.getMark;
+                break;
+            }
+        }
+        counter++
+        checkRows();
+        render.marks();
+    }
+}
 
     const checkRows = () => {
         let a = gameBoard.board
@@ -72,7 +85,11 @@ const game = (() => {
         }
         togglePlayer();
     }
-    const togglePlayer = () => player = (player == players[0]) ? players[1] : players[0];
+    const togglePlayer = () => {
+        player = (player == players[0]) ? players[1] : players[0];
+        if (player.getName === "AI") changeStateAi();
+    }
+
     return {
         changeState,
         reset,
@@ -92,15 +109,12 @@ const render = (() => {
         })
     }
     const clearBoard = () => {
-
         game.reset()
         marks();
     }
-
     return {
         marks,
         clearBoard,
-
     }
 })();
 
