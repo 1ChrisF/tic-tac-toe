@@ -13,7 +13,19 @@ const gameBoard = (() => {
         "", "", "",
         "", "", ""
     ]
-    return { board }
+    const checkRows = (name) => {
+        let rows = [
+            "012", "345", "678", "036", "147", "258", "048", "246"
+        ]
+        winTest = rows.some(ele => board[ele[0]] + board[ele[1]] + board[ele[2]] === "ooo");
+        if (winTest) {
+            alert(`${name} won!`)
+            game.gameState = false;
+        };
+
+    }
+    return { board, checkRows }
+
 })();
 
 const game = (() => {
@@ -28,6 +40,7 @@ const game = (() => {
     }
     players[1] = Player(1, "AI");
 
+    player = players[0];
 
     const reset = () => {
         gameBoard.board.forEach((element, index, array) => {
@@ -61,31 +74,10 @@ const game = (() => {
     }
     const updateGame = () => {
         counter++
-        checkRows();
+        gameBoard.checkRows(player.getName);
         render.marks();
     }
-    
-    const checkRows = () => {
-        let a = gameBoard.board
-        wins = [
-            a[0] + a[1] + a[2],
-            a[3] + a[4] + a[5],
-            a[6] + a[7] + a[8],
-            a[0] + a[3] + a[6],
-            a[1] + a[4] + a[7],
-            a[2] + a[5] + a[8],
-            a[0] + a[4] + a[8],
-            a[2] + a[4] + a[6]
-        ]
-        if (wins.indexOf("xxx") > -1 || wins.indexOf("ooo") > -1) {
-            gameBoard.board[5] = `${player.getName} wins`
-            gameState = false;
-        } else if (counter === 9) {
-            gameBoard.board[5] = "draw";
-            gameState = false;
-        }
-        togglePlayer();
-    }
+
     const togglePlayer = () => {
         player = (player == players[0]) ? players[1] : players[0];
         if (player.getName === "AI" && gameState === true) {
@@ -94,15 +86,16 @@ const game = (() => {
     }
 
     return {
-        changeState,
-        reset,
         addPlayer1,
-        player
+        changeState,        
+        togglePlayer,        
+        counter,      
+        gameState,   
+        
     }
 })();
 
 const render = (() => {
-
     const marks = () => {
 
         const squares = document.querySelectorAll(".square");
@@ -112,12 +105,12 @@ const render = (() => {
         })
     }
     const clearBoard = () => {
-        game.reset()
+        reset()
         marks();
     }
     return {
-        marks,
         clearBoard,
+        marks
     }
 })();
 
