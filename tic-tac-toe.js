@@ -17,15 +17,14 @@ const gameBoard = (() => {
         let rows = [
             "012", "345", "678", "036", "147", "258", "048", "246"
         ]
-        winTest = rows.some(ele => board[ele[0]] + board[ele[1]] + board[ele[2]] === "ooo");
+        winTest = rows.some(ele => board[ele[0]] + board[ele[1]] + board[ele[2]] === "ooo"
+            || board[ele[0]] + board[ele[1]] + board[ele[2]] === "xxx");
         if (winTest) {
             alert(`${name} won!`)
-            game.gameState = false;
-        };
-
+            game.finishGame(false);
+        } else { game.togglePlayer() };
     }
     return { board, checkRows }
-
 })();
 
 const game = (() => {
@@ -35,8 +34,10 @@ const game = (() => {
     let players = [];
     let player;
     const addPlayer1 = () => {
-        players[0] = Player(0, document.getElementById("nameInput").value);
+        const playerName = document.getElementById("nameInput").value
+        players[0] = Player(0, playerName);
         player = players[0];
+        render.playerName(playerName);
     }
     players[1] = Player(1, "AI");
 
@@ -74,8 +75,8 @@ const game = (() => {
     }
     const updateGame = () => {
         counter++
-        gameBoard.checkRows(player.getName);
         render.marks();
+        gameBoard.checkRows(player.getName);
     }
 
     const togglePlayer = () => {
@@ -85,19 +86,27 @@ const game = (() => {
         } else { player = players[0] }
     }
 
+    const finishGame = (state) => gameState = state;
+    const squares = document.querySelectorAll(".square")
+    squares.forEach(element => {
+        element.addEventListener("click", function (e) {
+            if (!e.target.innerText) {
+                changeState(e);
+            }
+        });
+    });
+    nameBtn = document.getElementById("getNameInput");
+    nameBtn.addEventListener("click", addPlayer1)
+
     return {
-        addPlayer1,
-        changeState,        
-        togglePlayer,        
-        counter,      
-        gameState,   
-        
+        togglePlayer,
+        finishGame,
+        reset
     }
 })();
 
 const render = (() => {
     const marks = () => {
-
         const squares = document.querySelectorAll(".square");
         squares.forEach(square => {
             i = square.dataset.index;
@@ -105,24 +114,27 @@ const render = (() => {
         })
     }
     const clearBoard = () => {
-        reset()
+        game.reset();
         marks();
     }
+    const playerName = (name) => {
+
+        const nameHeader = document.createElement("h2")
+        nameHeader.innerText = name;
+        const nameContainer = document.getElementById("nameContainer");
+        while (nameContainer.hasChildNodes()) {
+            nameContainer.removeChild(nameContainer.lastChild);
+        }
+        nameContainer.appendChild(nameHeader);
+    }
+    clearButton = document.getElementById("clear");
+    clearButton.addEventListener("click", clearBoard);
     return {
-        clearBoard,
-        marks
+        marks,
+        playerName
     }
 })();
 
-const squares = document.querySelectorAll(".square")
-squares.forEach(element => {
-    element.addEventListener("click", function (e) {
-        if (!e.target.innerText) {
-            game.changeState(e);
-        }
-    });
-});
-clearButton = document.getElementById("clear");
-clearButton.addEventListener("click", render.clearBoard);
-nameBtn = document.getElementById("name1");
-nameBtn.addEventListener("click", game.addPlayer1)
+
+
+
