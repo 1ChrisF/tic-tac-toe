@@ -19,8 +19,8 @@ const gameBoard = (() => {
         ]
         winTest = rows.some(ele => board[ele[0]] + board[ele[1]] + board[ele[2]] === "ooo"
             || board[ele[0]] + board[ele[1]] + board[ele[2]] === "xxx");
-        if (winTest) {
-            alert(`${name} won!`)
+        if (winTest) {            
+            render.winner(name)
             game.finishGame(false);
         } else { game.togglePlayer() };
     }
@@ -129,9 +129,20 @@ const render = (() => {
     }
     clearButton = document.getElementById("clear");
     clearButton.addEventListener("click", clearBoard);
-    return {
+
+   const winner = (name) =>{
+    winnerContainer = document.getElementById("winContainer");    
+    winnerContainer.classList.add("show")
+    document.getElementById("winnerMessage").innerText = `${name} won!`         
+    closeBtn = document.getElementById("close");
+    closeBtn.addEventListener("click", () => winnerContainer.classList.remove("show"))
+   }   
+
+   return {
         marks,
-        playerName
+        playerName,
+        winner
+
     }
 })();
 

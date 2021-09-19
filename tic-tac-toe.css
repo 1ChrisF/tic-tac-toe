@@ -19,3 +19,10 @@
    background-color: rgb(85, 173, 76);
    margin:10px;
  }
+
+ .winContainer{
+   opacity: 0;
+ }
+ .winContainer.show{
+   opacity: 1;
+ }
