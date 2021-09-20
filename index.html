@@ -12,26 +12,28 @@
 
 <body>
   <div class="container">
-    <div class="square" data-index="0"></div>
-    <div class="square" data-index="1"></div>
-    <div class="square" data-index="2"></div>
-    <div class="square" data-index="3"></div>
-    <div class="square" data-index="4"></div>
-    <div class="square" data-index="5"></div>
-    <div class="square" data-index="6"></div>
-    <div class="square" data-index="7"></div>
-    <div class="square" data-index="8"></div>
-  </div>
-  <button id="clear">clear</button>
-  <div id="nameContainer">
-    <input type="text" id="nameInput"></input>
-    <button id="getNameInput">ok</button>
-  </div>
-  <div id="winContainer" class="winContainer">
-    <div class="modal">
+    <div class="squares">
+      <div class="square" data-index="0"></div>
+      <div class="square" data-index="1"></div>
+      <div class="square" data-index="2"></div>
+      <div class="square" data-index="3"></div>
+      <div class="square" data-index="4"></div>
+      <div class="square" data-index="5"></div>
+      <div class="square" data-index="6"></div>
+      <div class="square" data-index="7"></div>
+      <div class="square" data-index="8"></div>
+    </div>
+    <div class="clearButton">
+      <button id="clear">Restart</button>
+    </div>
+    <div id="nameContainer">
+      <input type="text" id="nameInput" placeholder="enter name"></input>
+      <button id="getNameInput">ok</button>
+    </div>
+    <div id="winContainer" class="winContainer">
       <p id="winnerMessage">
       </p>
-      <button id="close">ok!</button>
+      <button id="close">Ok!</button>
     </div>
   </div>
 </body>

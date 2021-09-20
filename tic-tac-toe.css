@@ -1,28 +1,82 @@
- :root {
-   --light: hsla(225, 17, 32, 1);
-   --medium: rgb(26, 30, 39);
-   --dark: hsla(140, 16, 7, 1);
-   --textNav: rgb(183, 191, 216);
-   --border: rgb(175, 100, 50);
-   --borderActive: rgb(238, 115, 34);
-   --hover: rgb(94, 95, 144);
- }
-.container{
-  width: 360px;
-  height: 360px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+:root {
+  --light: rgb(108, 120, 153);
+  --medium: rgb(46, 61, 59);
+  --dark: rgb(16, 20, 17);
+  --textBox: rgb(183, 191, 216);
+  --border: rgb(175, 100, 50);
+  --borderActive: rgb(238, 115, 34);
+  --hover: rgb(94, 95, 144);
+}
+
+body {
+  background-color: var(--light);
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  background-color: var(--medium);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  margin: auto;
+  border: 3px solid var(--medium);
+  border-radius: 4px;
+}
+
+.squares {
+  width: 320px;
+  height: 320px;
   display: flex;
   flex-wrap: wrap;
+  margin: auto;
+  background-color: var(--light);
 }
- .square{
-   width: 100px;
-   height: 100px;
-   background-color: rgb(85, 173, 76);
-   margin:10px;
- }
 
- .winContainer{
-   opacity: 0;
- }
- .winContainer.show{
-   opacity: 1;
- }
+.square {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  font-size: 50px;
+  background-color: rgb(85, 173, 76);
+  margin: 3px;
+  border-radius: 3px;
+}
+
+input {
+  outline: 0;
+  border: 0px;
+  height: 28px;
+  background-color: var(--textBox);
+}
+
+.winContainer {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  opacity: 0;
+  background-color: var(--medium);
+  border-radius: 4px;
+}
+
+.winContainer.show {
+  opacity: 1;
+}
+
+button {
+  color: var(--light);
+  border: 1px rgb(168, 168, 168) solid;
+  border-radius: 4px;
+  background-color: var(--dark);
+  height: 30px;
+  margin: 4px;
+}
+
+button:hover {
+  background-color: var(--hover);
+}
