@@ -4,14 +4,13 @@
   --medium: rgb(46, 61, 59);
   --dark: rgb(16, 20, 17);
   --textBox: rgb(183, 191, 216);
-  --border: rgb(175, 100, 50);
-  --borderActive: rgb(238, 115, 34);
   --hover: rgb(94, 95, 144);
 }
 
 body {
   background-color: var(--light);
   font-family: 'Poppins', sans-serif;
+  color: antiquewhite;
 }
 
 .container {
@@ -42,6 +41,7 @@ body {
   background-color: rgb(85, 173, 76);
   margin: 3px;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 input {
@@ -56,16 +56,17 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%);
-  opacity: 0;
+  visibility: hidden;
   background-color: var(--medium);
   border-radius: 4px;
+  padding:5px;
 }
 
 .winContainer.show {
-  opacity: 1;
+  visibility: visible;
 }
 
 button {
