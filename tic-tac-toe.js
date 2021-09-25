@@ -86,7 +86,11 @@ const game = (() => {
         } else { player = players[0] }
     }
 
-    const finishGame = (state) => gameState = state;
+    const finishGame = (state) => {
+        gameState = state;
+        player = players[0]
+    }
+    
     const squares = document.querySelectorAll(".square")
     squares.forEach(element => {
         element.addEventListener("click", function (e) {
@@ -119,8 +123,8 @@ const render = (() => {
     }
     const playerName = (name) => {
 
-        const nameHeader = document.createElement("h2")
-        nameHeader.innerText = name;
+        const nameHeader = document.createElement("p")
+        nameHeader.innerText = name + " vs AI";
         const nameContainer = document.getElementById("nameContainer");
         while (nameContainer.hasChildNodes()) {
             nameContainer.removeChild(nameContainer.lastChild);
